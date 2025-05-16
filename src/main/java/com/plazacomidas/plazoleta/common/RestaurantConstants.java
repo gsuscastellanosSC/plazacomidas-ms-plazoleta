@@ -5,9 +5,6 @@ public class RestaurantConstants {
     public static final String API_RESTAURANTS = "/restaurantes";
     public static final String POST_CREATE_RESTAURANT = "/create";
 
-
-
-    // ==== Validation Messages ====
     public static final String MSG_NAME_ONLY_NUMBERS = "El nombre no puede contener solo números";
     public static final String MSG_NIT_NUMERIC = "El NIT debe ser numérico";
     public static final String MSG_PHONE_FORMAT = "El nombre del restaurante no puede estar compuesto solo por números.";
@@ -24,7 +21,6 @@ public class RestaurantConstants {
 
     public static final String TABLE_RESTAURANTS = "restaurantes";
 
-    // ==== Column Names ====
     public static final String COL_ID = "id";
     public static final String COL_NAME = "nombre";
     public static final String COL_NIT = "nit";
@@ -38,6 +34,5 @@ public class RestaurantConstants {
     public static final String ROLE_OWNER = "PROPIETARIO";
 
     private RestaurantConstants() {
-        // Utility class
     }
 }
