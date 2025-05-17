@@ -143,6 +143,10 @@
                     <excludes>
                         <exclude>com/plazacomidas/plazoleta/config/**</exclude>
                         <exclude>com/plazacomidas/plazoleta/MainApplication*</exclude>
+                        <exclude>com/plazacomidas/plazoleta/domain/exception/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/adapters/in/web/handler/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/adapters/in/web/mapper/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/infrastructure/adapter/out/database/jpa/mapper/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>

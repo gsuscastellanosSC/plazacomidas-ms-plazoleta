@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestaurantFieldValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">plazacomidas-ms-plazoleta</a> &gt; <a href="index.source.html" class="el_package">com.plazacomidas.plazoleta.application.validation</a> &gt; <span class="el_source">RestaurantFieldValidator.java</span></div><h1>RestaurantFieldValidator.java</h1><pre class="source lang-java linenums">package com.plazacomidas.plazoleta.application.validation;
+
+
+import com.plazacomidas.plazoleta.common.RestaurantConstants;
+import com.plazacomidas.plazoleta.domain.exception.InvalidRestaurantException;
+
+import java.util.function.Predicate;
+
+<span class="fc" id="L9">public enum RestaurantFieldValidator {</span>
+
+<span class="pc bpc" id="L11" title="2 of 6 branches missed.">    NAME(value -&gt; value != null &amp;&amp; !value.isBlank() &amp;&amp; !value.matches(&quot;^\\d+$&quot;),</span>
+            RestaurantConstants.MSG_NAME_ONLY_NUMBERS),
+
+<span class="pc bpc" id="L14" title="1 of 4 branches missed.">    NIT(value -&gt; value != null &amp;&amp; value.matches(&quot;^\\d+$&quot;),</span>
+            RestaurantConstants.MSG_NIT_NUMERIC),
+
+<span class="pc bpc" id="L17" title="1 of 4 branches missed.">    PHONE(value -&gt; value != null &amp;&amp; value.matches(&quot;^\\+?\\d{1,13}$&quot;),</span>
+            RestaurantConstants.MSG_PHONE_FORMAT),
+
+<span class="pc bpc" id="L20" title="1 of 4 branches missed.">    ADDRESS(value -&gt; value != null &amp;&amp; !value.isBlank(),</span>
+            RestaurantConstants.MSG_INVALID_ADDRESS),
+
+<span class="pc bpc" id="L23" title="1 of 4 branches missed.">    LOGO_URL(value -&gt; value != null &amp;&amp; !value.isBlank(),</span>
+            RestaurantConstants.MSG_INVALID_LOGO_URL);
+
+    private final Predicate&lt;String&gt; validator;
+    private final String errorMessage;
+
+<span class="fc" id="L29">    RestaurantFieldValidator(Predicate&lt;String&gt; validator, String errorMessage) {</span>
+<span class="fc" id="L30">        this.validator = validator;</span>
+<span class="fc" id="L31">        this.errorMessage = errorMessage;</span>
+<span class="fc" id="L32">    }</span>
+
+    public void validate(String value) {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (!validator.test(value)) {</span>
+<span class="fc" id="L36">            throw new InvalidRestaurantException(errorMessage);</span>
+        }
+<span class="fc" id="L38">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

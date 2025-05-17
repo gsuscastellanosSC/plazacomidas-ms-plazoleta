@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">plazacomidas-ms-plazoleta</a> &gt; <a href="index.source.html" class="el_package">com.plazacomidas.plazoleta.adapters.in.web.handler</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.plazacomidas.plazoleta.adapters.in.web.handler;
+
+import com.plazacomidas.plazoleta.adapters.in.web.dto.ErrorResponseDto;
+import com.plazacomidas.plazoleta.common.RestaurantConstants;
+import com.plazacomidas.plazoleta.domain.exception.ApiError;
+import com.plazacomidas.plazoleta.domain.exception.InvalidRestaurantException;
+import com.plazacomidas.plazoleta.domain.exception.RestaurantException;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.ZonedDateTime;
+import java.util.List;
+
+<span class="nc" id="L18">@Log4j2</span>
+@RestControllerAdvice
+<span class="nc" id="L20">public class GlobalExceptionHandler {</span>
+
+<span class="nc" id="L22">    private static final List&lt;String&gt; CUSTOM_MESSAGES = List.of(</span>
+            RestaurantConstants.MSG_USER_NOT_OWNER,
+            RestaurantConstants.MSG_USER_VALIDATION_FAILED,
+            RestaurantConstants.MSG_USER_NOT_OWNER,
+            RestaurantConstants.MSG_USER_VALIDATION_FAILED
+    );
+
+    @ExceptionHandler(RestaurantException.class)
+    public ResponseEntity&lt;ErrorResponseDto&gt; handleRestaurantException(
+            RestaurantException ex,
+            HttpServletRequest request) {
+
+<span class="nc" id="L34">        ApiError error = ApiError.INVALID_OWNER;</span>
+<span class="nc" id="L35">        String path = request.getRequestURI();</span>
+<span class="nc" id="L36">        ZonedDateTime timestamp = ZonedDateTime.now();</span>
+
+<span class="nc" id="L38">        log.warn(error.getLogFormat(), error.getErrorCode(), path, timestamp, ex.getMessage());</span>
+
+<span class="nc" id="L40">        ErrorResponseDto response = ErrorResponseDto.builder()</span>
+<span class="nc" id="L41">                .statusCode(error.getHttpStatus().value())</span>
+<span class="nc" id="L42">                .errorCode(error.getErrorCode())</span>
+<span class="nc" id="L43">                .description(getErrorDescription(ex, error))</span>
+<span class="nc" id="L44">                .build();</span>
+
+<span class="nc" id="L46">        return ResponseEntity.status(error.getHttpStatus()).body(response);</span>
+    }
+
+    @ExceptionHandler(InvalidRestaurantException.class)
+    public ResponseEntity&lt;ErrorResponseDto&gt; handleInvalidRestaurantException(
+            InvalidRestaurantException ex,
+            HttpServletRequest request) {
+
+<span class="nc" id="L54">        String path = request.getRequestURI();</span>
+<span class="nc" id="L55">        ZonedDateTime timestamp = ZonedDateTime.now();</span>
+
+<span class="nc bnc" id="L57" title="All 7 branches missed.">        ApiError error = switch (ex.getMessage()) {</span>
+<span class="nc" id="L58">            case RestaurantConstants.MSG_NAME_ONLY_NUMBERS -&gt; ApiError.INVALID_NAME;</span>
+<span class="nc" id="L59">            case RestaurantConstants.MSG_NIT_NUMERIC -&gt; ApiError.INVALID_NIT;</span>
+<span class="nc" id="L60">            case RestaurantConstants.MSG_PHONE_FORMAT -&gt; ApiError.INVALID_PHONE;</span>
+<span class="nc" id="L61">            case RestaurantConstants.MSG_INVALID_ADDRESS -&gt; ApiError.INVALID_ADDRESS;</span>
+<span class="nc" id="L62">            case RestaurantConstants.MSG_INVALID_LOGO_URL -&gt; ApiError.INVALID_LOGO_URL;</span>
+<span class="nc" id="L63">            case RestaurantConstants.MSG_MISSING_FIELDS -&gt; ApiError.MISSING_FIELDS;</span>
+<span class="nc" id="L64">            default -&gt; ApiError.INVALID_RESTAURANT_FIELD;</span>
+        };
+
+<span class="nc" id="L67">        log.warn(error.getLogFormat(), error.getErrorCode(), path, timestamp, ex.getMessage());</span>
+
+<span class="nc" id="L69">        ErrorResponseDto response = ErrorResponseDto.builder()</span>
+<span class="nc" id="L70">                .statusCode(error.getHttpStatus().value())</span>
+<span class="nc" id="L71">                .errorCode(error.getErrorCode())</span>
+<span class="nc" id="L72">                .description(error.getDescription())</span>
+<span class="nc" id="L73">                .build();</span>
+
+<span class="nc" id="L75">        return ResponseEntity.status(error.getHttpStatus()).body(response);</span>
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;ErrorResponseDto&gt; handleUnexpectedException(
+            Exception ex,
+            HttpServletRequest request) {
+
+<span class="nc" id="L83">        ApiError error = ApiError.SYSTEM_ERROR;</span>
+<span class="nc" id="L84">        String path = request.getRequestURI();</span>
+<span class="nc" id="L85">        ZonedDateTime timestamp = ZonedDateTime.now();</span>
+
+<span class="nc" id="L87">        log.error(error.getLogFormat(), error.getErrorCode(), path, timestamp, ex);</span>
+
+<span class="nc" id="L89">        ErrorResponseDto response = ErrorResponseDto.builder()</span>
+<span class="nc" id="L90">                .statusCode(error.getHttpStatus().value())</span>
+<span class="nc" id="L91">                .errorCode(error.getErrorCode())</span>
+<span class="nc" id="L92">                .description(getErrorDescription(ex, error))</span>
+<span class="nc" id="L93">                .build();</span>
+
+<span class="nc" id="L95">        return ResponseEntity.status(error.getHttpStatus()).body(response);</span>
+    }
+
+
+
+
+    private String getErrorDescription(Exception ex, ApiError error) {
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        return CUSTOM_MESSAGES.contains(ex.getMessage())</span>
+<span class="nc" id="L103">                ? ex.getMessage()</span>
+<span class="nc" id="L104">                : error.getDescription();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

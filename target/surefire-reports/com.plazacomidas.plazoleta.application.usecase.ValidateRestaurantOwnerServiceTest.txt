@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.plazacomidas.plazoleta.application.usecase.ValidateRestaurantOwnerServiceTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.825 s -- in com.plazacomidas.plazoleta.application.usecase.ValidateRestaurantOwnerServiceTest
