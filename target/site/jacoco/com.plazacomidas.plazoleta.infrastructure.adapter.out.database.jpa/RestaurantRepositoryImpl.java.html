@@ -7,6 +7,8 @@ import com.plazacomidas.plazoleta.infrastructure.adapter.out.database.jpa.reposi
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class RestaurantRepositoryImpl implements RestaurantRepository {
@@ -16,7 +18,13 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     public Restaurant save(Restaurant restaurant) {
-<span class="fc" id="L19">        return mapper.toDomain(jpaRepository.save(mapper.toEntity(restaurant)));</span>
+<span class="fc" id="L21">        return mapper.toDomain(jpaRepository.save(mapper.toEntity(restaurant)));</span>
+    }
+
+    @Override
+    public Optional&lt;Restaurant&gt; findById(Long id) {
+<span class="fc" id="L26">        return jpaRepository.findById(id)</span>
+<span class="fc" id="L27">                .map(mapper::toDomain);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

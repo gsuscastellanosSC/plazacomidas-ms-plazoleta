@@ -1,7 +1,16 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.adapters.in.web.controller,RestaurantController,0,11,0,0,0,2,0,1,0,1
+plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.adapters.in.web.controller,DishController,0,40,0,0,0,13,0,2,0,2
+plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.adapters.in.web.dto,DishRequestDto,0,3,0,0,0,1,0,1,0,1
+plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.application.usecase,UpdateDishUseCase,0,57,0,2,0,12,0,4,0,3
+plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.application.usecase,CreateDishUseCase,0,11,0,0,0,2,0,1,0,1
 plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.application.usecase,CreateRestaurantUseCase,0,14,0,0,0,3,0,1,0,1
 plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.application.usecase,ValidateRestaurantOwnerService,0,35,0,6,0,7,0,4,0,1
 plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.application.validation,RestaurantFieldValidator,0,117,6,18,0,13,6,14,0,8
+plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.application.validation,DishValidator,35,35,10,10,7,8,10,1,0,1
+plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.application.validation,DishOwnerValidator,0,24,0,2,0,5,0,3,0,2
 plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.application.validation,RestaurantValidator,21,0,0,0,6,0,1,0,1,0
-plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.infrastructure.adapter.out.database.jpa,RestaurantRepositoryImpl,0,12,0,0,0,1,0,1,0,1
+plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.application.validation,DishFieldValidator,8,57,5,5,1,9,5,5,0,5
+plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.infrastructure.adapter.out.database.jpa,DishRepositoryImpl,0,39,0,0,0,7,0,3,0,3
+plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.infrastructure.adapter.out.database.jpa,RestaurantRepositoryImpl,0,24,0,0,0,3,0,2,0,2
+plazacomidas-ms-plazoleta,com.plazacomidas.plazoleta.infrastructure.adapter.out.database.jpa.entity,DishEntity,0,3,0,0,0,1,0,1,0,1

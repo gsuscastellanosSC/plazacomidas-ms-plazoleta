@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DishValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">plazacomidas-ms-plazoleta</a> &gt; <a href="index.source.html" class="el_package">com.plazacomidas.plazoleta.application.validation</a> &gt; <span class="el_source">DishValidator.java</span></div><h1>DishValidator.java</h1><pre class="source lang-java linenums">package com.plazacomidas.plazoleta.application.validation;
+
+import com.plazacomidas.plazoleta.adapters.in.web.dto.DishRequestDto;
+import com.plazacomidas.plazoleta.common.DishConstants;
+import com.plazacomidas.plazoleta.domain.exception.InvalidDishException;
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+public class DishValidator {
+
+    public void validateCreateDish(DishRequestDto dto) {
+<span class="pc bpc" id="L12" title="2 of 4 branches missed.">        if (dto.getNombre() == null || dto.getNombre().isBlank()) {</span>
+<span class="nc" id="L13">            throw new InvalidDishException(DishConstants.MSG_REQUIRED_NAME);</span>
+        }
+
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">        if (dto.getPrecio() == null) {</span>
+<span class="nc" id="L17">            throw new InvalidDishException(DishConstants.MSG_REQUIRED_PRICE);</span>
+        }
+
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        if (dto.getPrecio() &lt;= 0) {</span>
+<span class="nc" id="L21">            throw new InvalidDishException(DishConstants.MSG_INVALID_PRICE);</span>
+        }
+
+<span class="pc bpc" id="L24" title="2 of 4 branches missed.">        if (dto.getDescripcion() == null || dto.getDescripcion().isBlank()) {</span>
+<span class="nc" id="L25">            throw new InvalidDishException(DishConstants.MSG_REQUIRED_DESCRIPTION);</span>
+        }
+
+<span class="pc bpc" id="L28" title="2 of 4 branches missed.">        if (dto.getUrlImagen() == null || dto.getUrlImagen().isBlank()) {</span>
+<span class="nc" id="L29">            throw new InvalidDishException(DishConstants.MSG_REQUIRED_IMAGE_URL);</span>
+        }
+
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if (dto.getIdCategoria() == null) {</span>
+<span class="nc" id="L33">            throw new InvalidDishException(DishConstants.MSG_REQUIRED_CATEGORY);</span>
+        }
+
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">        if (dto.getRestauranteId() == null) {</span>
+<span class="nc" id="L37">            throw new InvalidDishException(DishConstants.MSG_REQUIRED_RESTAURANT);</span>
+        }
+<span class="fc" id="L39">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
