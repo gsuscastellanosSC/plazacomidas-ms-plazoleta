@@ -7,3 +7,10 @@ CREATE TABLE restaurantes (
                               urllogo VARCHAR(255) NOT NULL,
                               id_propietario BIGINT NOT NULL
 );
+
+-- Tabla de categorías actualizada con descripción
+CREATE TABLE categorias (
+                            id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                            nombre VARCHAR(50) NOT NULL,
+                            descripcion VARCHAR(255) NOT NULL
+);
