@@ -26,3 +26,7 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+jwt:
+  secret: P7if+9cklkLtf3qfmseZxpRbDHsnZ4SCgN5an7UXkWY=
+  expiration: 86400000 # milisegundos (24 horas)

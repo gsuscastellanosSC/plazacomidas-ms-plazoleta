@@ -2,29 +2,19 @@ package com.plazacomidas.plazoleta.adapters.in.web.handler;
 
 import com.plazacomidas.plazoleta.adapters.in.web.dto.ErrorResponseDto;
 import com.plazacomidas.plazoleta.common.RestaurantConstants;
-import com.plazacomidas.plazoleta.domain.exception.ApiError;
-import com.plazacomidas.plazoleta.domain.exception.InvalidRestaurantException;
-import com.plazacomidas.plazoleta.domain.exception.RestaurantException;
+import com.plazacomidas.plazoleta.domain.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 @Log4j2
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    private static final List<String> CUSTOM_MESSAGES = List.of(
-            RestaurantConstants.MSG_USER_NOT_OWNER,
-            RestaurantConstants.MSG_USER_VALIDATION_FAILED,
-            RestaurantConstants.MSG_USER_NOT_OWNER,
-            RestaurantConstants.MSG_USER_VALIDATION_FAILED
-    );
 
     @ExceptionHandler(RestaurantException.class)
     public ResponseEntity<ErrorResponseDto> handleRestaurantException(
@@ -40,7 +30,27 @@ public class GlobalExceptionHandler {
         ErrorResponseDto response = ErrorResponseDto.builder()
                 .statusCode(error.getHttpStatus().value())
                 .errorCode(error.getErrorCode())
-                .description(getErrorDescription(ex, error))
+                .description(ex.getMessage())
+                .build();
+
+        return ResponseEntity.status(error.getHttpStatus()).body(response);
+    }
+
+    @ExceptionHandler(UnauthorizedDishCreationException.class)
+    public ResponseEntity<ErrorResponseDto> handleUnauthorizedDishCreationException(
+            UnauthorizedDishCreationException ex,
+            HttpServletRequest request) {
+
+        ApiError error = ApiError.UNAUTHORIZED_DISH_ACTION;
+        String path = request.getRequestURI();
+        ZonedDateTime timestamp = ZonedDateTime.now();
+
+        log.warn(error.getLogFormat(), error.getErrorCode(), path, timestamp, ex.getMessage());
+
+        ErrorResponseDto response = ErrorResponseDto.builder()
+                .statusCode(error.getHttpStatus().value())
+                .errorCode(error.getErrorCode())
+                .description(ex.getMessage())
                 .build();
 
         return ResponseEntity.status(error.getHttpStatus()).body(response);
@@ -69,7 +79,7 @@ public class GlobalExceptionHandler {
         ErrorResponseDto response = ErrorResponseDto.builder()
                 .statusCode(error.getHttpStatus().value())
                 .errorCode(error.getErrorCode())
-                .description(error.getDescription())
+                .description(ex.getMessage())
                 .build();
 
         return ResponseEntity.status(error.getHttpStatus()).body(response);
@@ -89,18 +99,28 @@ public class GlobalExceptionHandler {
         ErrorResponseDto response = ErrorResponseDto.builder()
                 .statusCode(error.getHttpStatus().value())
                 .errorCode(error.getErrorCode())
-                .description(getErrorDescription(ex, error))
+                .description(ex.getMessage())
                 .build();
 
         return ResponseEntity.status(error.getHttpStatus()).body(response);
     }
 
+    @ExceptionHandler({InvalidCredentialsException.class, AccessDeniedException.class})
+    public ResponseEntity<ErrorResponseDto> handleInvalidCredentialsException(
+            Exception ex,
+            HttpServletRequest request) {
 
+        ApiError error = ApiError.INVALID_CREDENTIALS;
+        ZonedDateTime timestamp = ZonedDateTime.now();
 
+        log.warn(error.getLogFormat(), error.getErrorCode(), request.getRequestURI(), timestamp, ex);
 
-    private String getErrorDescription(Exception ex, ApiError error) {
-        return CUSTOM_MESSAGES.contains(ex.getMessage())
-                ? ex.getMessage()
-                : error.getDescription();
+        ErrorResponseDto response = ErrorResponseDto.builder()
+                .statusCode(error.getHttpStatus().value())
+                .errorCode(error.getErrorCode())
+                .description(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(response, error.getHttpStatus());
     }
 }

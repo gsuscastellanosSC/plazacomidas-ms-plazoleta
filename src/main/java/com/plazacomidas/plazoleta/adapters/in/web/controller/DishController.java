@@ -5,6 +5,7 @@ import com.plazacomidas.plazoleta.adapters.in.web.dto.UpdateDishRequestDto;
 import com.plazacomidas.plazoleta.application.port.in.UpdateDishUseCasePort;
 import com.plazacomidas.plazoleta.application.usecase.CreateDishUseCase;
 import com.plazacomidas.plazoleta.application.validation.DishValidator;
+import org.springframework.security.access.prepost.PreAuthorize;
 import com.plazacomidas.plazoleta.domain.model.Dish;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class DishController {
     private final UpdateDishUseCasePort updateDishUseCasePort;
 
     @PostMapping
+    @PreAuthorize("hasRole('PROPIETARIO')")
     public Dish crearPlato(@RequestHeader("user-id") Long userId,
                            @RequestBody DishRequestDto dto) {
 

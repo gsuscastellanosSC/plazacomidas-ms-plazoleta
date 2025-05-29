@@ -6,6 +6,18 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ApiError {
 
+    UNAUTHORIZED_DISH_ACTION(
+            "UNAUTHORIZED_DISH_ACTION",
+            HttpStatus.UNAUTHORIZED,
+            "Solo el propietario del restaurante puede crear o modificar platos.",
+            "UNAUTHORIZED_DISH_ACTION | Path: {} | Timestamp: {} | {}"
+    ),
+    INVALID_CREDENTIALS(
+            "INVALID_CREDENTIALS",
+            HttpStatus.UNAUTHORIZED,
+            "Credenciales inválidas",
+            "{} | Path: {} | Timestamp: {}"
+    ),
     INVALID_OWNER("INVALID_OWNER", HttpStatus.BAD_REQUEST, "El usuario no tiene el rol de propietario.", "INVALID_OWNER | Path: {} | Timestamp: {} | {}"),
     INVALID_REQUEST("INVALID_REQUEST", HttpStatus.BAD_REQUEST, "Solicitud inválida: estructura incorrecta, campos faltantes o datos inválidos", "INVALID_REQUEST | Path: {} | Timestamp: {} | {}"),
     INVALID_RESTAURANT("INVALID_RESTAURANT", HttpStatus.BAD_REQUEST, "Datos inválidos para la creación del restaurante.", "INVALID_RESTAURANT | Path: {} | Timestamp: {} | {}"),
