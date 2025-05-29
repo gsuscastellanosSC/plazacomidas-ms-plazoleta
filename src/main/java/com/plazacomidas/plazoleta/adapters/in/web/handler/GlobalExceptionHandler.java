@@ -36,26 +36,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(error.getHttpStatus()).body(response);
     }
 
-    @ExceptionHandler(UnauthorizedDishCreationException.class)
-    public ResponseEntity<ErrorResponseDto> handleUnauthorizedDishCreationException(
-            UnauthorizedDishCreationException ex,
-            HttpServletRequest request) {
-
-        ApiError error = ApiError.UNAUTHORIZED_DISH_ACTION;
-        String path = request.getRequestURI();
-        ZonedDateTime timestamp = ZonedDateTime.now();
-
-        log.warn(error.getLogFormat(), error.getErrorCode(), path, timestamp, ex.getMessage());
-
-        ErrorResponseDto response = ErrorResponseDto.builder()
-                .statusCode(error.getHttpStatus().value())
-                .errorCode(error.getErrorCode())
-                .description(ex.getMessage())
-                .build();
-
-        return ResponseEntity.status(error.getHttpStatus()).body(response);
-    }
-
     @ExceptionHandler(InvalidRestaurantException.class)
     public ResponseEntity<ErrorResponseDto> handleInvalidRestaurantException(
             InvalidRestaurantException ex,
@@ -104,6 +84,27 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(error.getHttpStatus()).body(response);
     }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponseDto> handleUnexpectedException(
+            BusinessException ex,
+            HttpServletRequest request) {
+
+        ApiError error = ApiError.BUSINESS_RULE_VIOLATION;
+        String path = request.getRequestURI();
+        ZonedDateTime timestamp = ZonedDateTime.now();
+
+        log.error(error.getLogFormat(), error.getErrorCode(), path, timestamp, ex);
+
+        ErrorResponseDto response = ErrorResponseDto.builder()
+                .statusCode(error.getHttpStatus().value())
+                .errorCode(error.getErrorCode())
+                .description(ex.getMessage())
+                .build();
+
+        return ResponseEntity.status(error.getHttpStatus()).body(response);
+    }
+
 
     @ExceptionHandler({InvalidCredentialsException.class, AccessDeniedException.class})
     public ResponseEntity<ErrorResponseDto> handleInvalidCredentialsException(

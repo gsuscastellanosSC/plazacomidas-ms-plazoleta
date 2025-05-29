@@ -1,15 +1,22 @@
 package com.plazacomidas.plazoleta.adapters.in.web.controller;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.RestaurantRequestDto;
 import com.plazacomidas.plazoleta.adapters.in.web.mapper.RestaurantRequestMapper;
+import com.plazacomidas.plazoleta.adapters.out.web.dto.RestaurantResponseDto;
 import com.plazacomidas.plazoleta.application.port.in.CreateRestaurantUseCasePort;
+import com.plazacomidas.plazoleta.application.port.in.GetRestaurantsUseCasePort;
 import com.plazacomidas.plazoleta.common.RestaurantConstants;
 import com.plazacomidas.plazoleta.domain.model.Restaurant;
+import com.plazacomidas.plazoleta.domain.model.RestaurantModel;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,13 +25,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestaurantController {
 
     private final RestaurantRequestMapper mapper;
+    private final GetRestaurantsUseCasePort getRestaurantsUseCasePort;
     private final CreateRestaurantUseCasePort createRestaurantUseCasePort;
 
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PostMapping(RestaurantConstants.POST_CREATE_RESTAURANT)
     public ResponseEntity<Restaurant> create(@Valid @RequestBody RestaurantRequestDto dto) {
 
         Restaurant restaurant = mapper.toDomain(dto);
 
         return ResponseEntity.ok(createRestaurantUseCasePort.execute(restaurant));
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('CLIENTE')")
+    public ResponseEntity<Page<RestaurantResponseDto>> getRestaurants(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<RestaurantModel> restaurantPage = getRestaurantsUseCasePort.execute(page, size);
+        Page<RestaurantResponseDto> response = restaurantPage.map(restaurant ->
+                new RestaurantResponseDto(restaurant.getNombre(), restaurant.getUrlLogo()));
+        return ResponseEntity.ok(response);
     }
 }

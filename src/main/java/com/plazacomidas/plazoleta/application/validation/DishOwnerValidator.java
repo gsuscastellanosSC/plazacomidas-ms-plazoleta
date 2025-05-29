@@ -1,6 +1,6 @@
 package com.plazacomidas.plazoleta.application.validation;
 
-import com.plazacomidas.plazoleta.domain.exception.UnauthorizedDishCreationException;
+import com.plazacomidas.plazoleta.domain.exception.RestaurantException;
 import com.plazacomidas.plazoleta.domain.model.Restaurant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,10 +16,10 @@ public class DishOwnerValidator {
 
     public void validateOwnership(Long userId, Long restauranteId) {
         Restaurant restaurante = restaurantRepository.findById(restauranteId)
-                .orElseThrow(() -> new UnauthorizedDishCreationException("Restaurante no encontrado"));
+                .orElseThrow(() -> new RestaurantException("Restaurante no encontrado"));
 
         if (!Objects.equals(restaurante.getIdPropietario(), userId)) {
-            throw new UnauthorizedDishCreationException("No es el propietario del restaurante");
+            throw new RestaurantException("No es el propietario del restaurante");
         }
     }
 }

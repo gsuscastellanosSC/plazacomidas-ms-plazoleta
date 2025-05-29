@@ -6,12 +6,13 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ApiError {
 
-    UNAUTHORIZED_DISH_ACTION(
-            "UNAUTHORIZED_DISH_ACTION",
-            HttpStatus.UNAUTHORIZED,
-            "Solo el propietario del restaurante puede crear o modificar platos.",
-            "UNAUTHORIZED_DISH_ACTION | Path: {} | Timestamp: {} | {}"
+    BUSINESS_RULE_VIOLATION(
+            "BUSINESS_RULE_VIOLATION",
+            HttpStatus.BAD_REQUEST,
+            "Violación de una regla de negocio. Por favor, revise los datos.",
+            "BUSINESS_RULE_VIOLATION | Path: {} | Timestamp: {} | Detalles: {}"
     ),
+
     INVALID_CREDENTIALS(
             "INVALID_CREDENTIALS",
             HttpStatus.UNAUTHORIZED,

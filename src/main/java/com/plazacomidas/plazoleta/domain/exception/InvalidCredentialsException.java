@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.UNAUTHORIZED)
 public class InvalidCredentialsException extends RuntimeException {
-    private static final String DEFAULT_MESSAGE = "Credenciales inválidas";
 
     public InvalidCredentialsException() {
-        super(DEFAULT_MESSAGE);
+        super( ApiError.INVALID_CREDENTIALS.getDescription());
     }
 }

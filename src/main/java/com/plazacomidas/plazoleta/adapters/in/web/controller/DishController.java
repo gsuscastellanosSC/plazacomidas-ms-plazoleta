@@ -2,6 +2,7 @@ package com.plazacomidas.plazoleta.adapters.in.web.controller;
 
 import com.plazacomidas.plazoleta.adapters.in.web.dto.DishRequestDto;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.UpdateDishRequestDto;
+import com.plazacomidas.plazoleta.application.port.in.ChangeDishAvailabilityUseCasePort;
 import com.plazacomidas.plazoleta.application.port.in.UpdateDishUseCasePort;
 import com.plazacomidas.plazoleta.application.usecase.CreateDishUseCase;
 import com.plazacomidas.plazoleta.application.validation.DishValidator;
@@ -18,6 +19,8 @@ public class DishController {
 
     private final CreateDishUseCase createDishUseCase;
     private final UpdateDishUseCasePort updateDishUseCasePort;
+    private final ChangeDishAvailabilityUseCasePort changeDishAvailabilityUseCase;
+
 
     @PostMapping
     @PreAuthorize("hasRole('PROPIETARIO')")
@@ -46,6 +49,17 @@ public class DishController {
             @RequestHeader("user-id") Long userId
     ) {
         updateDishUseCasePort.execute(id, userId, dto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('PROPIETARIO')")
+    @PatchMapping("/{dishId}/availability")
+    public ResponseEntity<Void> changeDishAvailability(
+            @PathVariable Long dishId,
+            @RequestParam boolean active,
+            @RequestHeader("user-id") Long userId
+    ) {
+        changeDishAvailabilityUseCase.execute(dishId, userId, active);
         return ResponseEntity.noContent().build();
     }
 }
