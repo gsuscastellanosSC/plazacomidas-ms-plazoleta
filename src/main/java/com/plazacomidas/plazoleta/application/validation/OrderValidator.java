@@ -3,7 +3,7 @@ package com.plazacomidas.plazoleta.application.validation;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.CreateOrderRequestDto;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.DishOrderDto;
 import com.plazacomidas.plazoleta.application.port.in.ValidateUserRolePort;
-import com.plazacomidas.plazoleta.application.port.out.OrderRepositoryPort;
+import com.plazacomidas.plazoleta.domain.repository.OrderRepository;
 import com.plazacomidas.plazoleta.common.OrderConstants;
 import com.plazacomidas.plazoleta.domain.exception.BusinessException;
 import com.plazacomidas.plazoleta.domain.model.UserRole;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderValidator {
 
-    private final OrderRepositoryPort orderRepository;
+    private final OrderRepository orderRepository;
     private final ValidateUserRolePort userRoleValidator;
 
     public void validateCreateOrder(Long clientId, CreateOrderRequestDto dto) {

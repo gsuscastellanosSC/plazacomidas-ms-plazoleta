@@ -29,7 +29,7 @@ public class RestaurantController {
     private final GetRestaurantsUseCasePort getRestaurantsUseCasePort;
     private final CreateRestaurantUseCasePort createRestaurantUseCasePort;
 
-    @PreAuthorize(SecurityExpressions.HAS_ROLE_ADMIN)
+    @PreAuthorize(SecurityExpressions.HAS_ROLE_PROPIETARIO)
     @PostMapping(RestaurantConstants.POST_CREATE_RESTAURANT)
     public ResponseEntity<Restaurant> create(@Valid @RequestBody RestaurantRequestDto dto) {
 

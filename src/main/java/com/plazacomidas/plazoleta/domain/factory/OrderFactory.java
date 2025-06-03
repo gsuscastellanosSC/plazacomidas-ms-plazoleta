@@ -23,6 +23,7 @@ public class OrderFactory {
         return Order.builder()
                 .clientId(clientId)
                 .restaurantId(request.getRestaurantId())
+                .chefId(request.getChefId())
                 .creationDate(LocalDateTime.now())
                 .status(OrderStatus.PENDIENTE)
                 .dishes(dishes)

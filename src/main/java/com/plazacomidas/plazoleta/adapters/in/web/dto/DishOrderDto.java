@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DishOrderDto {
 
-    @JsonProperty("dish_id")
+    @JsonProperty("dishId")
     private Long dishId;
 
     @JsonProperty("quantity")

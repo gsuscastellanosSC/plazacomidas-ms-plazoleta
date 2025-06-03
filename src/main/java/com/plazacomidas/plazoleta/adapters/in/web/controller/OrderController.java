@@ -4,6 +4,7 @@ import com.plazacomidas.plazoleta.adapters.in.web.dto.CreateOrderRequestDto;
 import com.plazacomidas.plazoleta.application.port.in.CreateOrderUseCasePort;
 import com.plazacomidas.plazoleta.common.OrderConstants;
 import com.plazacomidas.plazoleta.common.SecurityExpressions;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,13 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(OrderConstants.API_ORDERS)
+@RequiredArgsConstructor
 public class OrderController {
 
     private final CreateOrderUseCasePort createOrderUseCase;
-
-    public OrderController(CreateOrderUseCasePort createOrderUseCase) {
-        this.createOrderUseCase = createOrderUseCase;
-    }
 
     @PostMapping
     @PreAuthorize(SecurityExpressions.HAS_ROLE_CLIENTE)
