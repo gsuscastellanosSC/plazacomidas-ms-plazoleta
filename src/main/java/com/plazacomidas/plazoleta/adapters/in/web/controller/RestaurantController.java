@@ -5,6 +5,7 @@ import com.plazacomidas.plazoleta.adapters.in.web.dto.RestaurantResponseDto;
 import com.plazacomidas.plazoleta.application.port.in.CreateRestaurantUseCasePort;
 import com.plazacomidas.plazoleta.application.port.in.GetRestaurantsUseCasePort;
 import com.plazacomidas.plazoleta.common.RestaurantConstants;
+import com.plazacomidas.plazoleta.common.SecurityExpressions;
 import com.plazacomidas.plazoleta.domain.model.Restaurant;
 import com.plazacomidas.plazoleta.domain.model.RestaurantModel;
 import jakarta.validation.Valid;
@@ -28,7 +29,7 @@ public class RestaurantController {
     private final GetRestaurantsUseCasePort getRestaurantsUseCasePort;
     private final CreateRestaurantUseCasePort createRestaurantUseCasePort;
 
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize(SecurityExpressions.HAS_ROLE_ADMIN)
     @PostMapping(RestaurantConstants.POST_CREATE_RESTAURANT)
     public ResponseEntity<Restaurant> create(@Valid @RequestBody RestaurantRequestDto dto) {
 
@@ -38,7 +39,7 @@ public class RestaurantController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('CLIENTE')")
+    @PreAuthorize(SecurityExpressions.HAS_ROLE_CLIENTE)
     public ResponseEntity<Page<RestaurantResponseDto>> getRestaurants(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size

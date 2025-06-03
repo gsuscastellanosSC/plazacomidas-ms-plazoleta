@@ -23,7 +23,7 @@ public class OrderValidator {
             throw new BusinessException(OrderConstants.MSG_ALREADY_HAS_ACTIVE_ORDER);
         }
 
-        userRoleValidator.validateUserHasRole(clientId, UserRole.CLIENTE.name(), OrderConstants.MSG_ONLY_CLIENT_CAN_CREATE_ORDER);
+        userRoleValidator.validateUserHasRole(clientId, UserRole.CLIENTE.getRol(), OrderConstants.MSG_ONLY_CLIENT_CAN_CREATE_ORDER);
 
         OrderFieldValidator.CLIENT_ID.validate(clientId);
         OrderFieldValidator.RESTAURANT_ID.validate(dto.getRestaurantId());

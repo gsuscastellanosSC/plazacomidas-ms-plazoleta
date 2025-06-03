@@ -8,6 +8,7 @@ import com.plazacomidas.plazoleta.application.port.in.GetDishesUseCasePort;
 import com.plazacomidas.plazoleta.application.port.in.UpdateDishUseCasePort;
 import com.plazacomidas.plazoleta.application.usecase.CreateDishUseCase;
 import com.plazacomidas.plazoleta.application.validation.DishValidator;
+import com.plazacomidas.plazoleta.common.SecurityExpressions;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import com.plazacomidas.plazoleta.domain.model.Dish;
@@ -27,7 +28,7 @@ public class DishController {
 
 
     @PostMapping
-    @PreAuthorize("hasRole('PROPIETARIO')")
+    @PreAuthorize(SecurityExpressions.HAS_ROLE_PROPIETARIO)
     public Dish crearPlato(@RequestHeader("user-id") Long userId,
                            @RequestBody DishRequestDto dto) {
 
@@ -56,7 +57,7 @@ public class DishController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasRole('PROPIETARIO')")
+    @PreAuthorize(SecurityExpressions.HAS_ROLE_PROPIETARIO)
     @PatchMapping("/{dishId}/availability")
     public ResponseEntity<Void> changeDishAvailability(
             @PathVariable Long dishId,
@@ -67,7 +68,7 @@ public class DishController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasRole('CLIENTE')")
+    @PreAuthorize(SecurityExpressions.HAS_ROLE_CLIENTE)
     @GetMapping
     public ResponseEntity<Page<DishResponseDto>> listDishesByRestaurant(
             @RequestParam Long restauranteId,

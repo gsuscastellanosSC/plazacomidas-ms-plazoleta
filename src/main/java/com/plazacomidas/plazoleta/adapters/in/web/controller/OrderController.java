@@ -3,6 +3,7 @@ package com.plazacomidas.plazoleta.adapters.in.web.controller;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.CreateOrderRequestDto;
 import com.plazacomidas.plazoleta.application.port.in.CreateOrderUseCasePort;
 import com.plazacomidas.plazoleta.common.OrderConstants;
+import com.plazacomidas.plazoleta.common.SecurityExpressions;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class OrderController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('CLIENTE')")
+    @PreAuthorize(SecurityExpressions.HAS_ROLE_CLIENTE)
     @ResponseStatus(HttpStatus.CREATED)
     public void createOrder(@RequestHeader("client-id") Long clientId,
                             @RequestBody CreateOrderRequestDto request) {
