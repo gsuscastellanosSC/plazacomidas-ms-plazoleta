@@ -2,7 +2,7 @@ package com.plazacomidas.plazoleta.adapters.in.web.controller;
 
 import com.plazacomidas.plazoleta.adapters.in.web.dto.DishRequestDto;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.UpdateDishRequestDto;
-import com.plazacomidas.plazoleta.adapters.in.web.out.dto.DishResponseDto;
+import com.plazacomidas.plazoleta.adapters.in.web.dto.DishResponseDto;
 import com.plazacomidas.plazoleta.application.port.in.ChangeDishAvailabilityUseCasePort;
 import com.plazacomidas.plazoleta.application.port.in.GetDishesUseCasePort;
 import com.plazacomidas.plazoleta.application.port.in.UpdateDishUseCasePort;

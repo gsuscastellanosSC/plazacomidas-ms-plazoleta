@@ -1,6 +1,7 @@
 package com.plazacomidas.plazoleta.adapters.in.web.handler;
 
 import com.plazacomidas.plazoleta.adapters.in.web.dto.ErrorResponseDto;
+import com.plazacomidas.plazoleta.common.OrderConstants;
 import com.plazacomidas.plazoleta.common.RestaurantConstants;
 import com.plazacomidas.plazoleta.domain.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +16,35 @@ import java.time.ZonedDateTime;
 @Log4j2
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(InvalidOrderException.class)
+    public ResponseEntity<ErrorResponseDto> handleInvalidOrderException(
+            InvalidOrderException ex,
+            HttpServletRequest request) {
+
+        String path = request.getRequestURI();
+        ZonedDateTime timestamp = ZonedDateTime.now();
+
+        ApiError error = switch (ex.getMessage()) {
+            case OrderConstants.MSG_REQUIRED_CLIENT_ID,
+                 OrderConstants.MSG_REQUIRED_RESTAURANT,
+                 OrderConstants.MSG_REQUIRED_DISHES -> ApiError.MISSING_ORDER_FIELDS;
+
+            case OrderConstants.MSG_INVALID_QUANTITY -> ApiError.INVALID_QUANTITY;
+
+            default -> ApiError.INVALID_ORDER_FIELD;
+        };
+
+        log.warn(error.getLogFormat(), error.getErrorCode(), path, timestamp, ex.getMessage());
+
+        ErrorResponseDto response = ErrorResponseDto.builder()
+                .statusCode(error.getHttpStatus().value())
+                .errorCode(error.getErrorCode())
+                .description(ex.getMessage())
+                .build();
+
+        return ResponseEntity.status(error.getHttpStatus()).body(response);
+    }
 
     @ExceptionHandler(RestaurantException.class)
     public ResponseEntity<ErrorResponseDto> handleRestaurantException(

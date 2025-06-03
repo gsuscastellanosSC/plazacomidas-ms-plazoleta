@@ -6,6 +6,10 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ApiError {
 
+    INVALID_ORDER_FIELD("PLZ-1100", HttpStatus.BAD_REQUEST, "Campo inválido en la orden", "Código: {}, Path: {}, Timestamp: {}, Detalle: {}"),
+    MISSING_ORDER_FIELDS("PLZ-1101", HttpStatus.BAD_REQUEST, "Faltan campos obligatorios en la orden", "Código: {}, Path: {}, Timestamp: {}, Detalle: {}"),
+    INVALID_QUANTITY("PLZ-1102", HttpStatus.BAD_REQUEST, "La cantidad debe ser mayor a cero", "Código: {}, Path: {}, Timestamp: {}, Detalle: {}"),
+
     BUSINESS_RULE_VIOLATION(
             "BUSINESS_RULE_VIOLATION",
             HttpStatus.BAD_REQUEST,

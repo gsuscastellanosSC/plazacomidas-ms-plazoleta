@@ -1,7 +1,6 @@
 package com.plazacomidas.plazoleta.domain.repository;
 
 import com.plazacomidas.plazoleta.domain.model.Dish;
-import com.plazacomidas.plazoleta.infrastructure.adapter.out.database.jpa.repository.entity.DishEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.Optional;

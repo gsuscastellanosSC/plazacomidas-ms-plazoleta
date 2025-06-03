@@ -29,7 +29,6 @@ public class RestaurantConstants {
     public static final String COL_LOGO_URL = "urllogo";
     public static final String COL_OWNER_ID = "id_propietario";
 
-    public static final String USER_SERVICE_URL = "http://localhost:8081/plazacomidas-user/v1/usuarios/";
     public static final String USER_ROLE_KEY = "id_rol";
     public static final String ROLE_OWNER = "PROPIETARIO";
 

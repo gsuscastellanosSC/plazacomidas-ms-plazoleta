@@ -9,4 +9,7 @@ public class InvalidCredentialsException extends RuntimeException {
     public InvalidCredentialsException() {
         super( ApiError.INVALID_CREDENTIALS.getDescription());
     }
+    public InvalidCredentialsException(String message) {
+        super(message);
+    }
 }

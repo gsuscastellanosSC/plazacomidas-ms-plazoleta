@@ -1,7 +1,7 @@
 package com.plazacomidas.plazoleta.adapters.in.web.controller;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.RestaurantRequestDto;
 import com.plazacomidas.plazoleta.adapters.in.web.mapper.RestaurantRequestMapper;
-import com.plazacomidas.plazoleta.adapters.out.web.dto.RestaurantResponseDto;
+import com.plazacomidas.plazoleta.adapters.in.web.dto.RestaurantResponseDto;
 import com.plazacomidas.plazoleta.application.port.in.CreateRestaurantUseCasePort;
 import com.plazacomidas.plazoleta.application.port.in.GetRestaurantsUseCasePort;
 import com.plazacomidas.plazoleta.common.RestaurantConstants;
