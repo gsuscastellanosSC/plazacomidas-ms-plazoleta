@@ -11,4 +11,5 @@ public interface RestaurantRepository {
     Restaurant save(Restaurant restaurant);
     Optional<Restaurant> findById(Long id);
     Page<RestaurantModel> findAll(Pageable pageable);
+    boolean existsByIdAndOwnerId(Long restaurantId, Long ownerId);
 }

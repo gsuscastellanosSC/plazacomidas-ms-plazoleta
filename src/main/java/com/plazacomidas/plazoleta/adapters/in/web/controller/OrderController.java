@@ -7,7 +7,6 @@ import com.plazacomidas.plazoleta.adapters.in.web.dto.TraceabilityResponseDto;
 import com.plazacomidas.plazoleta.application.port.in.*;
 import com.plazacomidas.plazoleta.common.OrderConstants;
 import com.plazacomidas.plazoleta.common.SecurityExpressions;
-import com.plazacomidas.plazoleta.domain.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

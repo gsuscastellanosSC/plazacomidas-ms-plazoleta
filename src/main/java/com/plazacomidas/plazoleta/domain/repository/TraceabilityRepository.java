@@ -7,4 +7,5 @@ import java.util.List;
 public interface TraceabilityRepository {
     List<Traceability> findByOrderId(Long orderId);
     Traceability save(Traceability traceability);
+    List<Traceability> findByOrderIdIn(List<Long> orderIds);
 }
