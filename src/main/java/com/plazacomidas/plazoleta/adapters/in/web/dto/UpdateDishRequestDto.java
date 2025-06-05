@@ -1,15 +1,12 @@
 package com.plazacomidas.plazoleta.adapters.in.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UpdateDishRequestDto {
 
     @JsonProperty("precio")
@@ -17,4 +14,5 @@ public class UpdateDishRequestDto {
 
     @JsonProperty("descripcion")
     private String description;
+
 }
