@@ -164,11 +164,21 @@
                 <configuration>
                     <excludes>
                         <exclude>com/plazacomidas/plazoleta/config/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/infrastructure/config/**</exclude>
                         <exclude>com/plazacomidas/plazoleta/MainApplication*</exclude>
                         <exclude>com/plazacomidas/plazoleta/domain/exception/**</exclude>
                         <exclude>com/plazacomidas/plazoleta/adapters/in/web/handler/**</exclude>
                         <exclude>com/plazacomidas/plazoleta/adapters/in/web/mapper/**</exclude>
                         <exclude>com/plazacomidas/plazoleta/infrastructure/adapter/out/database/jpa/mapper/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/application/validation/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/infrastructure/adapter/out/database/adapter/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/infrastructure/adapter/out/database/mapper/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/infrastructure/security/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/infrastructure/adapter/out/rest/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/domain/model/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/domain/factory/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/infrastructure/adapter/out/database/entity/**</exclude>
+                        <exclude>com/plazacomidas/plazoleta/common/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
