@@ -31,6 +31,10 @@ public class ChangeOrderStatusUseCase implements ChangeOrderStatusUseCasePort {
         orderRepository.save(order);
 
         UserResponseDto client = orderAndEmployeeDto.getEmployee();
-        smsNotifierPort.sendOrderReadySms(client.getPhoneNumber());
+        smsNotifierPort.sendOrderReadySms(client.getPhoneNumber(), generatePin() );
+    }
+
+    private String generatePin() {
+        return String.valueOf((int)(Math.random() * 9000) + 1000);
     }
 }
