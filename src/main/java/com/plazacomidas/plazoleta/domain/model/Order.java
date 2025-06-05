@@ -12,6 +12,7 @@ public class Order {
     private Long id;
     private Long clientId;
     private Long restaurantId;
+    private Long assignedEmployeeId;
     private Long chefId;
     private LocalDateTime creationDate;
     private OrderStatus status;

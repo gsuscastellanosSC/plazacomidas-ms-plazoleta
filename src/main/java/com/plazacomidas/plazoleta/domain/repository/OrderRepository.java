@@ -9,4 +9,5 @@ public interface OrderRepository {
     void save(Order order);
     boolean existsActiveOrderByClientId(Long clientId);
     Page<Order> findByRestaurantIdAndStatus(Long restaurantId, OrderStatus status, PageRequest pageRequest);
+    Order getById(Long orderId);
 }

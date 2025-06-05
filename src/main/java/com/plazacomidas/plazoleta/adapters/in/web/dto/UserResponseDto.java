@@ -26,4 +26,7 @@ public class UserResponseDto {
 
     @JsonProperty(RestaurantConstants.JSON_ROLE)
     private String role;
+
+    @JsonProperty(RestaurantConstants.JSON_RESTAURANT_ID)
+    private String restaurantId;
 }

@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum UserRole {
     CLIENTE("CLIENTE"),
     PROPIETARIO("PROPIETARIO"),
-    ADMINISTRADOR("ADMINISTRADOR");
+    ADMINISTRADOR("ADMINISTRADOR"),
+    EMPLEADO("EMPLEADO");
 
     private final String rol;
 
