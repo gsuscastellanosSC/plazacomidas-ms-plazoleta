@@ -1,0 +1,1 @@
+http://localhost:8181/plazacomidas-plazoleta/v1/swagger-ui/index.html#/

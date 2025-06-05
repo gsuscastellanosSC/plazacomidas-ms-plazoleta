@@ -60,4 +60,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.contains("/swagger") || path.contains("/api-docs") || path.contains("/webjars");
+    }
 }
