@@ -3,6 +3,7 @@ package com.plazacomidas.plazoleta.adapters.in.web.controller;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.CreateOrderRequestDto;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.OrderResponseDto;
 import com.plazacomidas.plazoleta.application.port.in.AssignOrderUseCasePort;
+import com.plazacomidas.plazoleta.application.port.in.ChangeOrderStatusUseCasePort;
 import com.plazacomidas.plazoleta.application.port.in.CreateOrderUseCasePort;
 import com.plazacomidas.plazoleta.application.port.in.GetOrdersUseCasePort;
 import com.plazacomidas.plazoleta.common.OrderConstants;
@@ -23,6 +24,7 @@ public class OrderController {
     private final AssignOrderUseCasePort assignOrderUseCasePort;
     private final CreateOrderUseCasePort createOrderUseCase;
     private final GetOrdersUseCasePort getOrdersUseCase;
+    private final ChangeOrderStatusUseCasePort ChangeOrderStatusUseCase;
 
     @PostMapping
     @PreAuthorize(SecurityExpressions.HAS_ROLE_CLIENTE)
@@ -49,6 +51,15 @@ public class OrderController {
             @PathVariable Long orderId,
             @RequestHeader("employee-id") Long employeeId) {
         assignOrderUseCasePort.assignOrder(orderId, employeeId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize(SecurityExpressions.HAS_ROLE_EMPLOYEE)
+    @PostMapping("/{orderId}/ready")
+    public ResponseEntity<Void> markOrderAsReady(
+            @PathVariable Long orderId,
+            @RequestHeader("employee-id") Long employeeId) {
+        ChangeOrderStatusUseCase.markOrderAsReady(orderId, employeeId);
         return ResponseEntity.ok().build();
     }
 }

@@ -4,11 +4,11 @@ import com.plazacomidas.plazoleta.adapters.in.web.dto.DishOrderDto;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.OrderResponseDto;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.UserResponseDto;
 import com.plazacomidas.plazoleta.application.port.in.GetOrdersUseCasePort;
+import com.plazacomidas.plazoleta.application.port.in.UserServicePort;
 import com.plazacomidas.plazoleta.domain.exception.InvalidCredentialsException;
 import com.plazacomidas.plazoleta.domain.model.Order;
 import com.plazacomidas.plazoleta.domain.model.OrderStatus;
 import com.plazacomidas.plazoleta.domain.repository.OrderRepository;
-import com.plazacomidas.plazoleta.infrastructure.adapter.out.rest.UserClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetOrdersUseCase implements GetOrdersUseCasePort {
     private final OrderRepository orderRepository;
-    private final UserClient userClient;
+    private final UserServicePort userClient;
 
     @Override
     public Page<OrderResponseDto> getOrdersByStatusForEmployee(Long employeeId, String status, int page, int size) {

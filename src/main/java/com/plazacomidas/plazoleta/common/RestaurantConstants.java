@@ -19,6 +19,7 @@ public class RestaurantConstants {
     public static final String JSON_EMAIL = "correo";
     public static final String JSON_ROLE = "rol";
     public static final String JSON_RESTAURANT_ID = "idRestaurante";
+    public static final String JSON_PHONE = "celular";
 
     public static final String TABLE_RESTAURANTS = "restaurantes";
 

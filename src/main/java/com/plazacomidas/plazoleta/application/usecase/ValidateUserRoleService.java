@@ -1,8 +1,8 @@
 package com.plazacomidas.plazoleta.application.usecase;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.UserResponseDto;
+import com.plazacomidas.plazoleta.application.port.in.UserServicePort;
 import com.plazacomidas.plazoleta.application.port.in.ValidateUserRolePort;
 import com.plazacomidas.plazoleta.domain.exception.InvalidCredentialsException;
-import com.plazacomidas.plazoleta.infrastructure.adapter.out.rest.UserClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ValidateUserRoleService implements ValidateUserRolePort {
 
-    private final UserClient userClient;
+    private final UserServicePort userClient;
 
     @Override
     public void validateUserHasRole(Long userId, String expectedRole, String errorMessageIfInvalid) {

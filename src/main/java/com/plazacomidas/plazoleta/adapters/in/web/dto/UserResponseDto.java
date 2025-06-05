@@ -29,4 +29,7 @@ public class UserResponseDto {
 
     @JsonProperty(RestaurantConstants.JSON_RESTAURANT_ID)
     private String restaurantId;
+
+    @JsonProperty(RestaurantConstants.JSON_PHONE)
+    private String phoneNumber;
 }

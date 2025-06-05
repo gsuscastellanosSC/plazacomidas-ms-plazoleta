@@ -143,3 +143,9 @@ replay_pid*
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij
 /target/
 .idea/
+
+# Exclude YAMLs with secrets
+application.yml
+application-*.yml
+bootstrap.yml
+bootstrap-*.yml

@@ -1,9 +1,9 @@
 package com.plazacomidas.plazoleta.application.validation;
 
 import com.plazacomidas.plazoleta.adapters.in.web.dto.UserResponseDto;
+import com.plazacomidas.plazoleta.application.port.in.UserServicePort;
 import com.plazacomidas.plazoleta.domain.model.Order;
 import com.plazacomidas.plazoleta.domain.repository.OrderRepository;
-import com.plazacomidas.plazoleta.infrastructure.adapter.out.rest.UserClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class AssignOrderValidator {
 
     private final OrderRepository orderRepository;
-    private final UserClient userClient;
+    private final UserServicePort userClient;
 
     public Order validate(Long orderId, Long employeeId) {
         UserResponseDto user = userClient.getUserById(employeeId);
