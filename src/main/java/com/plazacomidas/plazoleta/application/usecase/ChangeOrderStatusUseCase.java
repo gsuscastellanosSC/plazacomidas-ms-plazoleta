@@ -2,9 +2,12 @@ package com.plazacomidas.plazoleta.application.usecase;
 
 import com.plazacomidas.plazoleta.adapters.in.web.dto.UserResponseDto;
 import com.plazacomidas.plazoleta.application.dto.OrderAndEmployeeDto;
+import com.plazacomidas.plazoleta.application.dto.RegisterTraceabilityDto;
 import com.plazacomidas.plazoleta.application.port.in.ChangeOrderStatusUseCasePort;
 import com.plazacomidas.plazoleta.application.port.in.OrderAndEmployeeFetcherPort;
+import com.plazacomidas.plazoleta.application.port.in.RegisterOrderTraceUseCasePort;
 import com.plazacomidas.plazoleta.application.port.out.SmsNotifierPort;
+import com.plazacomidas.plazoleta.application.validation.CancelOrderFieldValidator;
 import com.plazacomidas.plazoleta.application.validation.MarkOrderDeliveredValidator;
 import com.plazacomidas.plazoleta.application.validation.MarkOrderReadyValidator;
 import com.plazacomidas.plazoleta.domain.model.Order;
@@ -22,6 +25,7 @@ public class ChangeOrderStatusUseCase implements ChangeOrderStatusUseCasePort {
     private final OrderAndEmployeeFetcherPort orderAndEmployeeFetcher;
     private final MarkOrderReadyValidator markOrderReadyValidator;
     private final MarkOrderDeliveredValidator markOrderDeliveredValidator;
+    private final RegisterOrderTraceUseCasePort registerTraceUseCase;
 
     @Override
     public void markOrderAsReady(Long orderId, Long employeeId) {
@@ -33,7 +37,19 @@ public class ChangeOrderStatusUseCase implements ChangeOrderStatusUseCasePort {
         orderRepository.save(order);
 
         UserResponseDto client = orderAndEmployeeDto.getEmployee();
+
+        registerTraceUseCase.registerTrace(RegisterTraceabilityDto.builder()
+                .orderId(order.getId())
+                .previousStatus(String.valueOf(OrderStatus.EN_PREPARACION))
+                .newStatus(OrderStatus.LISTO.name())
+                .clientId(order.getClientId())
+                .clientEmail(client.getEmail())
+                .employeeId(employeeId)
+                .employeeEmail(orderAndEmployeeDto.getEmployee().getEmail())
+                .build());
+
         smsNotifierPort.sendOrderReadySms(client.getPhoneNumber(), generatePin() );
+
     }
 
     @Override
@@ -43,6 +59,40 @@ public class ChangeOrderStatusUseCase implements ChangeOrderStatusUseCasePort {
         Order order = dto.getOrder();
         order.setStatus(OrderStatus.ENTREGADO);
         orderRepository.save(order);
+
+        UserResponseDto client = dto.getEmployee();
+
+        registerTraceUseCase.registerTrace(RegisterTraceabilityDto.builder()
+                .orderId(order.getId())
+                .previousStatus(String.valueOf(OrderStatus.LISTO))
+                .newStatus(OrderStatus.ENTREGADO.name())
+                .clientId(order.getClientId())
+                .clientEmail(client.getEmail())
+                .employeeId(employeeId)
+                .employeeEmail(dto.getEmployee().getEmail())
+                .build());
+    }
+
+    @Override
+    public void cancelOrder(Long orderId, Long clientId) {
+        Order order = orderRepository.getById(orderId);
+
+        CancelOrderFieldValidator.ORDER_IS_NOT_NULL.validate(order);
+        CancelOrderFieldValidator.ORDER_STATUS_IS_PENDING.validate(order);
+        CancelOrderFieldValidator.ORDER_BELONGS_TO_CLIENT.validate(order.getClientId().equals(clientId));
+
+        order.setStatus(OrderStatus.CANCELADO);
+        orderRepository.save(order);
+
+        registerTraceUseCase.registerTrace(RegisterTraceabilityDto.builder()
+                .orderId(order.getId())
+                .previousStatus(String.valueOf(OrderStatus.PENDIENTE))
+                .newStatus(OrderStatus.CANCELADO.name())
+                .clientId(order.getClientId())
+                .clientEmail(null)
+                .employeeId(null)
+                .employeeEmail(null)
+                .build());
     }
 
     private String generatePin() {

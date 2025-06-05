@@ -3,10 +3,8 @@ package com.plazacomidas.plazoleta.adapters.in.web.controller;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.CreateOrderRequestDto;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.DeliverOrderRequestDto;
 import com.plazacomidas.plazoleta.adapters.in.web.dto.OrderResponseDto;
-import com.plazacomidas.plazoleta.application.port.in.AssignOrderUseCasePort;
-import com.plazacomidas.plazoleta.application.port.in.ChangeOrderStatusUseCasePort;
-import com.plazacomidas.plazoleta.application.port.in.CreateOrderUseCasePort;
-import com.plazacomidas.plazoleta.application.port.in.GetOrdersUseCasePort;
+import com.plazacomidas.plazoleta.adapters.in.web.dto.TraceabilityResponseDto;
+import com.plazacomidas.plazoleta.application.port.in.*;
 import com.plazacomidas.plazoleta.common.OrderConstants;
 import com.plazacomidas.plazoleta.common.SecurityExpressions;
 import com.plazacomidas.plazoleta.domain.model.OrderStatus;
@@ -17,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(OrderConstants.API_ORDERS)
 @RequiredArgsConstructor
@@ -26,6 +26,8 @@ public class OrderController {
     private final CreateOrderUseCasePort createOrderUseCase;
     private final GetOrdersUseCasePort getOrdersUseCase;
     private final ChangeOrderStatusUseCasePort ChangeOrderStatusUseCase;
+    private final GetOrderTraceabilityUseCasePort getTraceabilityUseCase;
+
 
     @PostMapping
     @PreAuthorize(SecurityExpressions.HAS_ROLE_CLIENTE)
@@ -72,5 +74,25 @@ public class OrderController {
             @RequestBody DeliverOrderRequestDto requestDto) {
         ChangeOrderStatusUseCase.markOrderAsDelivered(orderId, employeeId, requestDto.getPin());
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{orderId}/cancel")
+    @PreAuthorize(SecurityExpressions.HAS_ROLE_CLIENTE)
+    public ResponseEntity<Void> cancelOrder(
+            @PathVariable Long orderId,
+            @RequestHeader("client-id") Long clientId) {
+        ChangeOrderStatusUseCase.cancelOrder(orderId, clientId);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @GetMapping("/{orderId}/trazabilidad")
+    @PreAuthorize(SecurityExpressions.HAS_ROLE_CLIENTE)
+    public ResponseEntity<List<TraceabilityResponseDto>> getOrderTraceability(
+            @RequestHeader("client-id") Long clientId,
+            @PathVariable Long orderId) {
+
+        List<TraceabilityResponseDto> logs = getTraceabilityUseCase.getTraceabilityForOrder(orderId, clientId);
+        return ResponseEntity.ok(logs);
     }
 }
